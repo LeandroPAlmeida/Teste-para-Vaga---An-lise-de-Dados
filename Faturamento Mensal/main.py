@@ -6,25 +6,22 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 def Media():
     with open('dados.json', 'r') as arq:
         conteudo = json.load(arq)
-        SMensal = c = 0
-        for i in conteudo:
-            for v in conteudo:
-                if i == 0:
-                  v = SMensal
-                if v > SMensal:
-                  SMensal += v
-                  c += 1
-        SMensal_formatado = locale.currency(SMensal, symbol=True, grouping=True)
-        print(f'Quantidade de dias: {c} com o a média de: {SMensal_formatado}.')
+        SMensal = 0
+        for dado in conteudo:
+            Mvalor = dado['valor']
+            SMensal += Mvalor
+        c = len(conteudo)
+        media = SMensal / c
+    superiores = len([dado for dado in conteudo if dado['valor'] > media])
+    SMensal_formatado = locale.currency(media, symbol=True, grouping=True)
+    print(f'Quantidade de dias: {superiores} com a média de: {SMensal_formatado}.')
 
 def Maior():
     with open('dados.json', 'r') as arq:
         conteudo = json.load(arq)
-        i = Mvalor = 0
-        for valor in conteudo:
-            if i == 0:
-                valor = valor
-                i += 1
+        Mvalor = 0
+        for dado in conteudo:
+            valor = dado['valor']
             if valor > Mvalor:
                 Mvalor = valor
     Mvalor_formatado = locale.currency(Mvalor, symbol=True, grouping=True)
@@ -34,7 +31,8 @@ def Menor():
     with open('dados.json', 'r') as arq:
         conteudo = json.load(arq)
         Menor_valor = float('inf')
-        for valor in conteudo:
+        for dado in conteudo:
+            valor = dado['valor']
             if valor == 0:
                 continue
             if valor < Menor_valor:
@@ -63,7 +61,3 @@ while True:
         break
     else:
         print('\033[91mOpção Inválida!! Tente Novamente.\033[0m')
-
-
-
-
